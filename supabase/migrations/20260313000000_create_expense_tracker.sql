@@ -141,6 +141,16 @@ END;
 $$ LANGUAGE plpgsql SECURITY DEFINER;
 
 -- ============================================================
+-- ============================================================
+-- HELPER FUNCTION (SECURITY DEFINER - bypasses RLS)
+-- ============================================================
+CREATE OR REPLACE FUNCTION is_group_creator(p_group_id UUID)
+RETURNS BOOLEAN AS $$
+  SELECT EXISTS (
+    SELECT 1 FROM groups WHERE id = p_group_id AND created_by = auth.uid()
+  );
+$$ LANGUAGE sql SECURITY DEFINER STABLE;
+
 -- ROW LEVEL SECURITY
 -- ============================================================
 
@@ -178,21 +188,23 @@ CREATE POLICY "Group members can view members"
   USING (EXISTS (
     SELECT 1 FROM group_members gm WHERE gm.group_id = group_members.group_id AND gm.user_id = auth.uid()
   ));
-CREATE POLICY "Group admins can add members"
-  ON group_members FOR INSERT TO authenticated
-  WITH CHECK (
-    EXISTS (
-      SELECT 1 FROM group_members gm WHERE gm.group_id = group_members.group_id AND gm.user_id = auth.uid() AND gm.role = 'admin'
-    ) OR (
-      EXISTS (SELECT 1 FROM groups WHERE groups.id = group_members.group_id AND groups.created_by = auth.uid())
-    )
-  );
-CREATE POLICY "Group admins or self can remove members"
-  ON group_members FOR DELETE TO authenticated
-  USING (
-    user_id = auth.uid() OR
-    EXISTS (SELECT 1 FROM group_members gm WHERE gm.group_id = group_members.group_id AND gm.user_id = auth.uid() AND gm.role = 'admin')
-  );
+CREATE POLICY "Authenticated users can insert group members"
+ON group_members FOR INSERT TO authenticated
+WITH CHECK (
+  -- User is an existing admin of the group
+  EXISTS (
+    SELECT 1 FROM group_members gm
+    WHERE gm.group_id = group_members.group_id
+      AND gm.user_id = auth.uid()
+      AND gm.role = 'admin'
+  )
+  OR
+  -- User is adding themselves as the group creator (uses SECURITY DEFINER to bypass RLS)
+  (
+    group_members.user_id = auth.uid()
+    AND is_group_creator(group_members.group_id)
+  )
+)
 
 -- Categories
 ALTER TABLE categories ENABLE ROW LEVEL SECURITY;
