@@ -102,23 +102,23 @@ export function GroupSettings({ group, members }: GroupSettingsProps) {
                       <div>
                                 <p className="text-sm text-muted-foreground">
                                   {members.length} miembro{members.length !== 1 ? "s" : ""}
-                                </p>p>
-                      </div>div>
+                                </p>
+                      </div>
                       <Dialog open={inviteOpen} onOpenChange={setInviteOpen}>
                                 <DialogTrigger asChild>
                                             <Button>
                                                           <UserPlus className="h-4 w-4 mr-2" />
                                                           Invitar persona
-                                            </Button>Button>
-                                </DialogTrigger>DialogTrigger>
+                                            </Button>
+                                </DialogTrigger>
                                 <DialogContent>
                                             <DialogHeader>
                                                           <DialogTitle>Invitar al grupo</DialogTitle>
                                                           <DialogDescription>
                                                                           Ingresá el email de la persona que querés agregar. Le va a
                                                                           llegar un mail con el link al grupo.
-                                                          </DialogDescription>DialogDescription>
-                                            </DialogHeader>DialogHeader>
+                                                          </DialogDescription>
+                                            </DialogHeader>
                                             <div className="space-y-4 pt-2">
                                                           <div className="flex gap-2">
                                                                           <Input
@@ -136,18 +136,18 @@ export function GroupSettings({ group, members }: GroupSettingsProps) {
                                                                                             >
                                                                                             <Mail className="h-4 w-4 mr-1" />
                                                                             {addingMember ? "Enviando..." : "Invitar"}
-                                                                          </Button>Button>
-                                                          </div>div>
-                                            </div>div>
-                                </DialogContent>DialogContent>
-                      </Dialog>Dialog>
-              </div>div>
+                                                                          </Button>
+                                                          </div>
+                                            </div>
+                                </DialogContent>
+                      </Dialog>
+              </div>
         
           {/* Members list */}
               <Card>
                       <CardHeader>
-                                <CardTitle className="text-base">Miembros</CardTitle>CardTitle>
-                      </CardHeader>CardHeader>
+                                <CardTitle className="text-base">Miembros</CardTitle>
+                      </CardHeader>
                       <CardContent className="space-y-2">
                         {members.map((member) => (
                       <div
@@ -157,11 +157,11 @@ export function GroupSettings({ group, members }: GroupSettingsProps) {
                                     <div className="flex items-center gap-2">
                                                     <span className="text-sm font-medium">
                                                       {member.profiles?.display_name ?? member.profiles?.email}
-                                                    </span>span>
+                                                    </span>
                                                     <Badge variant="secondary" className="text-xs">
                                                       {member.role}
-                                                    </Badge>Badge>
-                                    </div>div>
+                                                    </Badge>
+                                    </div>
                         {member.role !== "admin" && (
                                                       <Button
                                                                           variant="ghost"
@@ -170,70 +170,70 @@ export function GroupSettings({ group, members }: GroupSettingsProps) {
                                                                           onClick={() => handleRemoveMember(member.user_id)}
                                                                         >
                                                                         <Trash2 className="h-4 w-4" />
-                                                      </Button>Button>
+                                                      </Button>
                                     )}
-                      </div>div>
+                      </div>
                     ))}
-                      </CardContent>CardContent>
-              </Card>Card>
+                      </CardContent>
+              </Card>
         
           {/* Group info */}
               <Card>
                       <CardHeader>
-                                <CardTitle className="text-base">Información del grupo</CardTitle>CardTitle>
-                      </CardHeader>CardHeader>
+                                <CardTitle className="text-base">Información del grupo</CardTitle>
+                      </CardHeader>
                       <CardContent>
                                 <form action={handleUpdateGroup} className="space-y-4">
                                             <div className="space-y-2">
-                                                          <Label htmlFor="name">Nombre</Label>Label>
+                                                          <Label htmlFor="name">Nombre</Label>
                                                           <Input
                                                                             id="name"
                                                                             name="name"
                                                                             defaultValue={group.name}
                                                                             required
                                                                           />
-                                            </div>div>
+                                            </div>
                                             <div className="space-y-2">
-                                                          <Label htmlFor="description">Descripción</Label>Label>
+                                                          <Label htmlFor="description">Descripción</Label>
                                                           <Textarea
                                                                             id="description"
                                                                             name="description"
                                                                             defaultValue={group.description ?? ""}
                                                                           />
-                                            </div>div>
+                                            </div>
                                             <div className="space-y-2">
-                                                          <Label htmlFor="currency">Moneda</Label>Label>
+                                                          <Label htmlFor="currency">Moneda</Label>
                                                           <Select name="currency" defaultValue={group.currency}>
                                                                           <SelectTrigger>
                                                                                             <SelectValue />
-                                                                          </SelectTrigger>SelectTrigger>
+                                                                          </SelectTrigger>
                                                                           <SelectContent>
                                                                             {CURRENCIES.map((c) => (
                               <SelectItem key={c.value} value={c.value}>
                                 {c.label}
-                              </SelectItem>SelectItem>
+                              </SelectItem>
                             ))}
-                                                                          </SelectContent>SelectContent>
-                                                          </Select>Select>
-                                            </div>div>
-                                            <Button type="submit">Guardar cambios</Button>Button>
-                                </form>form>
-                      </CardContent>CardContent>
-              </Card>Card>
+                                                                          </SelectContent>
+                                                          </Select>
+                                            </div>
+                                            <Button type="submit">Guardar cambios</Button>
+                                </form>
+                      </CardContent>
+              </Card>
         
           {/* Danger zone */}
               <Card className="border-destructive">
                       <CardHeader>
                                 <CardTitle className="text-base text-destructive">
                                             Zona peligrosa
-                                </CardTitle>CardTitle>
-                      </CardHeader>CardHeader>
+                                </CardTitle>
+                      </CardHeader>
                       <CardContent>
                                 <Button variant="destructive" onClick={handleDeleteGroup}>
                                             Eliminar grupo
-                                </Button>Button>
-                      </CardContent>CardContent>
-              </Card>Card>
-        </div>div>
+                                </Button>
+                      </CardContent>
+              </Card>
+        </div>
       );
 }</div>
