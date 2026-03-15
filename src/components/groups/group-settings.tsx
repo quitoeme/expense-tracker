@@ -236,4 +236,4 @@ export function GroupSettings({ group, members }: GroupSettingsProps) {
               </Card>
         </div>
       );
-}</div>
+}
