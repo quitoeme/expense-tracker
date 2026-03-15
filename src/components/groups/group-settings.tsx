@@ -113,7 +113,7 @@ export function GroupSettings({ group, members }: GroupSettingsProps) {
                                 </DialogTrigger>DialogTrigger>
                                 <DialogContent>
                                             <DialogHeader>
-                                                          <DialogTitle>Invitar al grupo</DialogTitle>DialogTitle>
+                                                          <DialogTitle>Invitar al grupo</DialogTitle>
                                                           <DialogDescription>
                                                                           Ingresá el email de la persona que querés agregar. Le va a
                                                                           llegar un mail con el link al grupo.
